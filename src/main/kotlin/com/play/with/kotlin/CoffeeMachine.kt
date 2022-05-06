@@ -7,13 +7,11 @@ var currentCups = 9
 var currentMoney = 550
 
 fun main() {
-    printMachineState()
     askAction()
-    printMachineState()
 }
 
 fun printMachineState() {
-    print(
+    println(
         """
             The coffee machine has:
             $currentWater ml of water
@@ -26,33 +24,76 @@ fun printMachineState() {
 }
 
 fun makeEspresso() {
-    currentMoney += 4
-    currentWater -= 250
-    currentBeans -=16
+    val cost = 4
+    val water = 250
+    val milk = 0
+    val beans = 16
+    if (checkResources(water, milk, beans)) {
+        updateCurrent(cost, water, milk, beans)
+    }
 }
 
 fun makeLatte() {
-    currentMoney += 7
-    currentWater -= 350
-    currentMilk -= 75
-    currentBeans -=20
+    val cost = 7
+    val water = 350
+    val milk = 75
+    val beans = 20
+    if (checkResources(water, milk, beans)) {
+        updateCurrent(cost, water, milk, beans)
+    }
 }
 
 fun makeCappuccino() {
-    currentMoney += 6
-    currentWater -= 200
-    currentMilk -= 100
-    currentBeans -=12
+    val cost = 6
+    val water = 200
+    val milk = 100
+    val beans = 12
+    if (checkResources(water, milk, beans)) {
+        updateCurrent(cost, water, milk, beans)
+    }
+}
+
+fun updateCurrent(cost: Int, water: Int, milk: Int, beans: Int) {
+    currentMoney += cost
+    currentWater -= water
+    currentMilk -= milk
+    currentBeans -= beans
+    --currentCups
+}
+
+fun checkResources(neededWater: Int, neededMilk: Int, neededBeans: Int): Boolean {
+    val enoughWater = neededWater <= currentWater
+    val enoughMilk = neededMilk <= currentMilk
+    val enoughBeans = neededBeans <= currentBeans
+    val canMakeCoffee = enoughWater && enoughMilk && enoughBeans
+    if (canMakeCoffee) {
+        println("I have enough resources, making you a coffee!")
+    } else {
+        println(
+            when {
+                !enoughWater -> "Sorry, not enough water!"
+                !enoughMilk -> "Sorry, not enough milk!"
+                !enoughBeans -> "Sorry, not enough beans!"
+                else -> "Something went wrong"
+            }
+        )
+    }
+    return canMakeCoffee
 }
 
 fun askAction() {
-    println("Write action (buy, fill, take):")
-    val userInput = readLine()!!
-    when (userInput) {
-        "buy" -> askChoice()
-        "fill" -> fillMachine()
-        "take" -> takeMoney()
-    }
+    var mustExit = false
+    do {
+        print("Write action (buy, fill, take, remaining, exit):")
+        val userInput = readLine()!!.trim()
+        when (userInput) {
+            "buy" -> askChoice()
+            "fill" -> fillMachine()
+            "take" -> takeMoney()
+            "remaining" -> printMachineState()
+            "exit" -> mustExit = true
+        }
+    } while (!mustExit)
 }
 
 fun fillMachine() {
@@ -71,17 +112,17 @@ fun fillMachine() {
 }
 
 fun takeMoney() {
-    print("I gave you $${currentMoney}")
+    println("I gave you $${currentMoney}")
     currentMoney = 0
 }
 
 fun askChoice() {
-    println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:")
-    val userChoice = readLine()!!.toInt()
+    print("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino, back - to main menu:")
+    val userChoice = readLine()!!
     when (userChoice) {
-        1 -> makeEspresso()
-        2 -> makeLatte()
-        3 -> makeCappuccino()
+        "1" -> makeEspresso()
+        "2" -> makeLatte()
+        "3" -> makeCappuccino()
+        "back" -> return
     }
-    --currentCups
 }
