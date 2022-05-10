@@ -7,6 +7,21 @@ class CoffeeMachine {
     private var currentCups = 9
     private var currentMoney = 550
 
+    fun askAction() {
+        var mustExit = false
+        do {
+            print("Write action (buy, fill, take, remaining, exit):")
+            val userInput = readLine()!!.trim()
+            when (userInput) {
+                "buy" -> askChoice()
+                "fill" -> fillMachine()
+                "take" -> takeMoney()
+                "remaining" -> printMachineState()
+                "exit" -> mustExit = true
+            }
+        } while (!mustExit)
+    }
+
     private fun printMachineState() {
         println(
             """
@@ -76,21 +91,6 @@ class CoffeeMachine {
             )
         }
         return canMakeCoffee
-    }
-
-    fun askAction() {
-        var mustExit = false
-        do {
-            print("Write action (buy, fill, take, remaining, exit):")
-            val userInput = readLine()!!.trim()
-            when (userInput) {
-                "buy" -> askChoice()
-                "fill" -> fillMachine()
-                "take" -> takeMoney()
-                "remaining" -> printMachineState()
-                "exit" -> mustExit = true
-            }
-        } while (!mustExit)
     }
 
     private fun fillMachine() {
