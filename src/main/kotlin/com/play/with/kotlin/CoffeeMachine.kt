@@ -7,7 +7,7 @@ class CoffeeMachine {
     private var currentCups = 9
     private var currentMoney = 550
 
-    fun printMachineState() {
+    private fun printMachineState() {
         println(
             """
             The coffee machine has:
@@ -20,7 +20,7 @@ class CoffeeMachine {
         )
     }
 
-    fun makeEspresso() {
+    private fun makeEspresso() {
         val cost = 4
         val water = 250
         val milk = 0
@@ -30,7 +30,7 @@ class CoffeeMachine {
         }
     }
 
-    fun makeLatte() {
+    private fun makeLatte() {
         val cost = 7
         val water = 350
         val milk = 75
@@ -40,7 +40,7 @@ class CoffeeMachine {
         }
     }
 
-    fun makeCappuccino() {
+    private fun makeCappuccino() {
         val cost = 6
         val water = 200
         val milk = 100
@@ -50,7 +50,7 @@ class CoffeeMachine {
         }
     }
 
-    fun updateCurrent(cost: Int, water: Int, milk: Int, beans: Int) {
+    private fun updateCurrent(cost: Int, water: Int, milk: Int, beans: Int) {
         currentMoney += cost
         currentWater -= water
         currentMilk -= milk
@@ -58,7 +58,7 @@ class CoffeeMachine {
         --currentCups
     }
 
-    fun checkResources(neededWater: Int, neededMilk: Int, neededBeans: Int): Boolean {
+    private fun checkResources(neededWater: Int, neededMilk: Int, neededBeans: Int): Boolean {
         val enoughWater = neededWater <= currentWater
         val enoughMilk = neededMilk <= currentMilk
         val enoughBeans = neededBeans <= currentBeans
@@ -93,7 +93,7 @@ class CoffeeMachine {
         } while (!mustExit)
     }
 
-    fun fillMachine() {
+    private fun fillMachine() {
         print("Write how many ml of water do you want to add:")
         val addWater = readLine()!!.toInt()
         currentWater += addWater
@@ -108,12 +108,12 @@ class CoffeeMachine {
         currentCups += addCups
     }
 
-    fun takeMoney() {
+    private fun takeMoney() {
         println("I gave you $${currentMoney}")
         currentMoney = 0
     }
 
-    fun askChoice() {
+    private fun askChoice() {
         print("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino, back - to main menu:")
         val userChoice = readLine()!!
         when (userChoice) {
