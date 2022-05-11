@@ -1,11 +1,12 @@
 package com.play.with.kotlin
 
-class CoffeeMachine {
-    private var currentWater = 400
-    private var currentMilk = 540
-    private var currentBeans = 120
-    private var currentCups = 9
-    private var currentMoney = 550
+class CoffeeMachine(
+    var currentWater: Int = 400,
+    var currentMilk: Int = 540,
+    var currentBeans: Int = 120,
+    var currentCups: Int = 9,
+    var currentMoney: Int = 550
+) {
 
     fun askAction() {
         var mustExit = false
